@@ -2,7 +2,8 @@ import sys
 from src.exception import NetworkSecurityException
 from src.logger import logging
 from src.components.data_ingestion import DataIngestion
-from src.entity.config_entity import DataIngestionConfig,TrainingPipelineConfig
+from src.components.data_validation import DataValidation
+from src.entity.config_entity import DataIngestionConfig,TrainingPipelineConfig,DataValidationConfig
 
 
 
@@ -14,7 +15,15 @@ if __name__ == '__main__':
         logging.info("Initiate the data ingestion")
 
         data_ignestion_artifacts = data_ingestion.initiate_data_ingestion()
-        print(data_ignestion_artifacts)
+        logging.info("Data Initiaton Completed")
+        data_validation_config = DataValidationConfig(training_pipeline_config)
+        data_validation = DataValidation(data_ignestion_artifacts,data_validation_config)
+        logging.info("Initiate the data Validation")
+        data_validation_artifact = data_validation.initiate_data_validation()
+        logging.info('Data Validation Compelted')
+        print(data_validation_artifact)
+
+
     
     except Exception as e:
         logging.error("Enter the catch block")
